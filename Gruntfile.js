@@ -75,7 +75,12 @@ app.get('/some/path', function(req, res) {
     }
 });
 
-
+function sanitizeUrl(url) {
+    let u = decodeURI(url).trim().toLowerCase();
+    if (u.startsWith("javascript:") || u.startsWith("data:") || u.startsWith("vbscript:"))
+        return "about:blank";
+    return url;
+}
   
   grunt.registerTask('checksum', 'Create .md5 checksum files', function () {
     const fs = require('fs')
